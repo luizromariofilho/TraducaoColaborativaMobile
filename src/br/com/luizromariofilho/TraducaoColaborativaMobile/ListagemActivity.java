@@ -17,6 +17,7 @@ import java.util.List;
 public class ListagemActivity extends Activity {
     private ListView listView;
     private static List<Texto> list = new ArrayList<Texto>();
+    private static final int REQUEST_CODE = 1;
 
     static {
         list.add(new Texto(1,"Text Example akd jaskdljasjdlask jdlkasj dklasjdklsjld jaskldjsk jdklasj dkls jdklajs dlkajs dajkl", true, "Texto Exemplo asjhdka kashdjkash jdask adjahs kadkshasdh ada d s dasdh askhd jkashdjkash dksj jas       ", "luizromariofilho@gmail.com", "leonan.teixeira@gmail.com"));
@@ -40,8 +41,16 @@ public class ListagemActivity extends Activity {
                 Bundle parametro = new Bundle();
                 parametro.putSerializable("texto",texto);
                 intent.putExtras(parametro);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_CODE);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE){
+            // TODO implementar ainda
+        }
     }
 }
