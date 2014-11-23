@@ -53,4 +53,10 @@ public class ListagemActivity extends Activity {
             // TODO implementar ainda
         }
     }
+
+    public void btnAdicionarOnClick(View view){
+        Intent intent = new Intent(ListagemActivity.this, FormActivity.class);
+        startActivity(intent);
+        this.finish();
+    }
 }
