@@ -9,7 +9,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Configurações"
-            android:layout_gravity="right" android:id="@+id/btnConfiguracoes"/>
+            android:layout_gravity="right" android:id="@+id/btnConfiguracoes"
+            android:onClick="btnConfiguracoesOnClick"/>
     <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

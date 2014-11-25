@@ -17,7 +17,9 @@ import java.util.List;
 public class ListagemActivity extends Activity {
     private ListView listView;
     private static List<Texto> list = new ArrayList<Texto>();
-    private static final int REQUEST_CODE = 1;
+    private static final int REQUEST_DETALHES_CODE = 1;
+    private static final int REQUEST_ADICIONAR_CODE = 2;
+    private static final int REQUEST_CONFIGURACOES_CODE = 3;
 
     static {
         list.add(new Texto(1,"Text Example akd jaskdljasjdlask jdlkasj dklasjdklsjld jaskldjsk jdklasj dkls jdklajs dlkajs dajkl", true, "Texto Exemplo asjhdka kashdjkash jdask adjahs kadkshasdh ada d s dasdh askhd jkashdjkash dksj jas       ", "luizromariofilho@gmail.com", "leonan.teixeira@gmail.com"));
@@ -41,7 +43,7 @@ public class ListagemActivity extends Activity {
                 Bundle parametro = new Bundle();
                 parametro.putSerializable("texto",texto);
                 intent.putExtras(parametro);
-                startActivityForResult(intent,REQUEST_CODE);
+                startActivityForResult(intent,REQUEST_DETALHES_CODE);
             }
         });
     }
@@ -49,14 +51,20 @@ public class ListagemActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE){
+        if(requestCode == REQUEST_DETALHES_CODE){
+            // TODO implementar ainda
+        }else if(requestCode == REQUEST_ADICIONAR_CODE){
             // TODO implementar ainda
         }
     }
 
     public void btnAdicionarOnClick(View view){
         Intent intent = new Intent(ListagemActivity.this, FormActivity.class);
-        startActivity(intent);
-        this.finish();
+        startActivityForResult(intent,REQUEST_ADICIONAR_CODE);
+    }
+
+    public void btnConfiguracoesOnClick(View view){
+        Intent intent = new Intent(ListagemActivity.this, ConfiguracoesActivity.class);
+        startActivityForResult(intent,REQUEST_CONFIGURACOES_CODE);
     }
 }

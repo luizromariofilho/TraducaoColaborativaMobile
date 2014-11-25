@@ -15,5 +15,6 @@
         <activity android:name=".ListagemActivity"/>
         <activity android:name=".DetalhesActivity"/>
         <activity android:name=".FormActivity"/>
+        <activity android:name=".ConfiguracoesActivity"/>
     </application>
 </manifest>
