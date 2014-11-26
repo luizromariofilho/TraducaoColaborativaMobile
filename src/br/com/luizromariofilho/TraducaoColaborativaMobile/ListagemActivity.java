@@ -21,24 +21,23 @@ public class ListagemActivity extends Activity {
     private static final int REQUEST_ADICIONAR_CODE = 2;
     private static final int REQUEST_CONFIGURACOES_CODE = 3;
 
-    static {
-        list.add(new Texto(1,"Text Example akd jaskdljasjdlask jdlkasj dklasjdklsjld jaskldjsk jdklasj dkls jdklajs dlkajs dajkl", true, "Texto Exemplo asjhdka kashdjkash jdask adjahs kadkshasdh ada d s dasdh askhd jkashdjkash dksj jas       ", "luizromariofilho@gmail.com", "leonan.teixeira@gmail.com"));
-        list.add(new Texto(2,"Text Example", true, "Texto Exemplo", "luizromariofilho@gmail.com", "leonan.teixeira@gmail.com"));
-        list.add(new Texto(3,"Text Example", true, "Texto Exemplo", "luizromariofilho@gmail.com", "leonan.teixeira@gmail.com"));
-        list.add(new Texto(4,"Text Example", true, "Texto Exemplo", "luizromariofilho@gmail.com", "leonan.teixeira@gmail.com"));
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listagem_layout);
         listView = (ListView) findViewById(R.id.listView);
+        FachadaBD.getInstancia(this);
+
+        list = FachadaBD.getInstancia().getAll();
         listView.setAdapter(new TextoListAdapter(list, this));
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Texto texto = (Texto) parent.getItemAtPosition(position);
+                //Texto texto = FachadaBD.getInstancia().get(parent.getItemIdAtPosition(position));
                 Intent intent = new Intent(ListagemActivity.this, DetalhesActivity.class);
                 Bundle parametro = new Bundle();
                 parametro.putSerializable("texto",texto);
@@ -52,9 +51,9 @@ public class ListagemActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_DETALHES_CODE){
-            // TODO implementar ainda
+            list = FachadaBD.getInstancia().getAll();
         }else if(requestCode == REQUEST_ADICIONAR_CODE){
-            // TODO implementar ainda
+            list = FachadaBD.getInstancia().getAll();
         }
     }
 
