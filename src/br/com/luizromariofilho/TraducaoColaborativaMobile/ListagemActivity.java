@@ -51,8 +51,10 @@ public class ListagemActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_DETALHES_CODE){
             list = FachadaBD.getInstancia().getAll();
+            listView.setAdapter(new TextoListAdapter(list, this));
         }else if(requestCode == REQUEST_ADICIONAR_CODE){
             list = FachadaBD.getInstancia().getAll();
+            listView.setAdapter(new TextoListAdapter(list, this));
         }
     }
 

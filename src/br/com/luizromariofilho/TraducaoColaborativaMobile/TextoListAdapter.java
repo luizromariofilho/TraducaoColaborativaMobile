@@ -45,7 +45,11 @@ public class TextoListAdapter extends BaseAdapter {
         View view = inflater.inflate(R.layout.item_listagem_layout, null);
         TextView textView = (TextView) view.findViewById(R.id.txtTextoOriginal);
         ImageView imageView = (ImageView) view.findViewById(R.id.imgStatus);
-
+        if(texto.getTraduzido()){
+            imageView.setBackgroundResource(R.drawable.ok);
+        }else{
+            imageView.setBackgroundResource(R.drawable.not);
+        }
         textView.setText(texto.getTextoOriginal());
 
         return view;
