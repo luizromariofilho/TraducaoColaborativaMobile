@@ -39,8 +39,16 @@
                 android:layout_height="wrap_content"
                 android:text="Entrar"
                 android:id="@+id/btnEntrar"
-                android:layout_below="@+id/txtEmail" android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true" android:onClick="btnEntrarOnClick"/>
+                android:onClick="btnEntrarOnClick"
+                android:layout_below="@+id/txtError" android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="E-mail fora do padrão."
+                android:layout_below="@+id/txtEmail" android:layout_alignParentLeft="true" android:id="@+id/txtError"
+                android:layout_alignParentRight="true"/>
     </RelativeLayout>
 </LinearLayout>
 

@@ -7,11 +7,13 @@ import java.io.Serializable;
  */
 public class Texto implements Serializable {
     private Integer id;
+    private Integer idLocal;
     private String textoOriginal;
     private Boolean traduzido;
     private String textoTraduzido;
     private String emailAutor;
     private String emailTradutor;
+    private Date ultimaModificacao;
 
     public Texto() {
     }

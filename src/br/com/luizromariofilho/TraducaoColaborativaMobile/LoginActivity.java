@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.regex.Pattern;
 
@@ -14,13 +15,18 @@ public class LoginActivity extends Activity {
      */
 
     private EditText txtEmail;
+    private TextView txtError;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+
         this.txtEmail = (EditText) findViewById(R.id.txtEmail);
+        this.txtError = (TextView) findViewById(R.id.txtError);
+        txtError.setVisibility(View.GONE);
     }
 
     public void btnEntrarOnClick(View view){
@@ -31,7 +37,7 @@ public class LoginActivity extends Activity {
             startActivity(intent);
             this.finish();
         } else{
-            // TODO error email
+            txtError.setVisibility(View.VISIBLE);
         }
     }
 
