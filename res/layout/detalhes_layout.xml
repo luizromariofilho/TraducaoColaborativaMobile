@@ -31,5 +31,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Traduzir"
-            android:id="@+id/button" android:onClick="btnTraduzirOnClick"/>
+            android:id="@+id/btnTraduzir" android:onClick="btnTraduzirOnClick"/>
+    <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Remover Tradução"
+            android:layout_gravity="center_horizontal" android:id="@+id/btnLimparTraducao"
+            android:onClick="btnLimparTraducaoOnClick"/>
 </LinearLayout>

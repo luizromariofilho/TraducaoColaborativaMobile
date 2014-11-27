@@ -40,4 +40,12 @@ public class DetalhesActivity extends Activity {
         FachadaBD.getInstancia().salvar(texto);
         this.finish();
     }
+
+    public void btnLimparTraducaoOnClick(View view){
+        texto.setTextoTraduzido("");
+        texto.setEmailTradutor("");
+        texto.setTraduzido(false);
+        FachadaBD.getInstancia().salvar(texto);
+        this.finish();
+    }
 }

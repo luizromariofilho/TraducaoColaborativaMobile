@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.regex.Pattern;
+
 public class LoginActivity extends Activity {
     /**
      * Called when the activity is first created.
@@ -22,9 +24,18 @@ public class LoginActivity extends Activity {
     }
 
     public void btnEntrarOnClick(View view){
-        Sessao.email = txtEmail.getText().toString();
-        Intent intent = new Intent(LoginActivity.this, ListagemActivity.class);
-        startActivity(intent);
-        this.finish();
+        String email = txtEmail.getText().toString();
+        Sessao.email = email;
+        if(emailValido(email)){
+            Intent intent = new Intent(LoginActivity.this, ListagemActivity.class);
+            startActivity(intent);
+            this.finish();
+        } else{
+            // TODO error email
+        }
+    }
+
+    private Boolean emailValido(String email) {
+        return Pattern.matches("^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})$", email);
     }
 }

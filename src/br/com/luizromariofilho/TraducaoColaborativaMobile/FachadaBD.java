@@ -88,6 +88,14 @@ public class FachadaBD extends SQLiteOpenHelper {
         Texto texto = null;
         SQLiteDatabase db = this.getReadableDatabase();
 
+        Cursor c = db.rawQuery("SELECT * FROM " + NOME_TABELA + " WHERE " + KEY_ID + " = " + id, null);
+        if (c != null) {
+            boolean continuar = c.moveToFirst();
+            while (continuar) {
+                texto = populateTexto(c);
+                continuar = c.moveToNext();
+            }
+        }
         return texto;
     }
 

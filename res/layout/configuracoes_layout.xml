@@ -5,10 +5,36 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <Button
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" android:layout_weight="1">
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView" android:layout_gravity="center_horizontal" android:src="@drawable/ic_launcher"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Tradução Colaborativa"
+                android:id="@+id/textView" android:layout_gravity="center_horizontal"/>
+        <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sincronizar"
+                android:id="@+id/btnSincronizar" android:focusable="true"
+                android:onClick="btnSincronizarOnClick"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sincronizar"
-            android:id="@+id/btnSincronizar" android:layout_gravity="center_horizontal" android:focusable="true"
-            android:onClick="btnSincronizarOnClick"/>
+            android:layout_height="wrap_content" android:layout_weight="1">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="v1.0"
+                android:id="@+id/textView2" android:layout_gravity="center_horizontal" android:layout_weight="1"/>
+    </LinearLayout>
 </LinearLayout>

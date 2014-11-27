@@ -36,8 +36,7 @@ public class ListagemActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Texto texto = (Texto) parent.getItemAtPosition(position);
-                //Texto texto = FachadaBD.getInstancia().get(parent.getItemIdAtPosition(position));
+                Texto texto = FachadaBD.getInstancia().get(parent.getItemIdAtPosition(position));
                 Intent intent = new Intent(ListagemActivity.this, DetalhesActivity.class);
                 Bundle parametro = new Bundle();
                 parametro.putSerializable("texto",texto);
