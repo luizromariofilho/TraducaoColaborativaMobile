@@ -8,7 +8,8 @@ import java.util.Date;
 public class Util {
     public static String email;
     public static Date sincronizacao;
-    public static String URL_WEBSERVICE = "http://192.168.0.105:8080/TraducaoColaborativa/rest";
+    //public static String URL_WEBSERVICE = "http://192.168.0.105:8080/TraducaoColaborativa/rest";
+    public static String URL_WEBSERVICE = "http://192.168.1.118:8080/TraducaoColaborativa/rest";
     //public static Boolean isEmptyBd = FachadaBD.getInstancia().getAll() == null || FachadaBD.getInstancia().getAll().isEmpty();
 
 

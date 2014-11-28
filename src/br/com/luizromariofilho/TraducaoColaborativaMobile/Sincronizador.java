@@ -1,5 +1,6 @@
 package br.com.luizromariofilho.TraducaoColaborativaMobile;
 
+import android.content.Intent;
 import br.com.luizromariofilho.TraducaoColaborativaMobile.entities.Texto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

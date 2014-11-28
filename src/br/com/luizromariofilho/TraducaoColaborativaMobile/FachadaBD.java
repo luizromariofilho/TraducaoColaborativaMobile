@@ -80,12 +80,13 @@ public class FachadaBD extends SQLiteOpenHelper {
             if(ultimaSincronizacao != null) {
                 campos.put(KEY_DATA_SINCRONIZACAO, simpleDateFormat.format(ultimaSincronizacao));
             }
-            return db.update(NOME_TABELA,campos, KEY_ID + " = " + texto.getId(),null);
+            return db.update(NOME_TABELA,campos, KEY_ID_LOCAL + " = " + texto.getIdLocal(),null);
         } else {
             campos.put(KEY_EMAIL_AUTOR, texto.getEmailAutor());
             campos.put(KEY_EMAIL_TRADUTOR, texto.getEmailTradutor());
             campos.put(KEY_ID, texto.getId());
-            campos.put(KEY_ID_LOCAL, texto.getIdLocal());
+            Integer ultimoId = getMaxId(db);
+            campos.put(KEY_ID_LOCAL, ultimoId + 1);
             campos.put(KEY_TEXTO_ORIGINAL, texto.getTextoOriginal());
             campos.put(KEY_TEXTO_TRADUZIDO, texto.getTextoTraduzido());
             campos.put(KEY_TRADUZIDO, texto.getTraduzido() ? 1 : 0);
@@ -95,6 +96,19 @@ public class FachadaBD extends SQLiteOpenHelper {
             }
             return db.insert(NOME_TABELA, null, campos);
         }
+    }
+
+    private Integer getMaxId(SQLiteDatabase db) {
+        Cursor c = db.rawQuery("SELECT MAX("+ KEY_ID_LOCAL+") AS ID FROM " + NOME_TABELA, null);
+        Integer id = 0;
+        if (c != null) {
+            boolean continuar = c.moveToFirst();
+            while (continuar) {
+                id = c.getInt(c.getColumnIndex("ID"));
+                continuar = c.moveToNext();
+            }
+        }
+        return id;
     }
 
     public Texto get(long id){
@@ -131,6 +145,7 @@ public class FachadaBD extends SQLiteOpenHelper {
         Texto texto = new Texto();
 
         texto.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+        texto.setIdLocal(cursor.getInt(cursor.getColumnIndex(KEY_ID_LOCAL)));
         texto.setTextoTraduzido(cursor.getString(cursor.getColumnIndex(KEY_TEXTO_TRADUZIDO)));
         texto.setTextoOriginal(cursor.getString(cursor.getColumnIndex(KEY_TEXTO_ORIGINAL)));
         texto.setEmailAutor(cursor.getString(cursor.getColumnIndex(KEY_EMAIL_AUTOR)));

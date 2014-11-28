@@ -19,5 +19,5 @@
             android:layout_height="wrap_content"
             android:text="Adicionar"
             android:id="@+id/btnAdicionar" android:layout_gravity="center_horizontal"
-            android:onClick="btnSalvarOnClick" />
+            android:onClick="btnSalvarOnClick" android:background="#286090"/>
 </LinearLayout>

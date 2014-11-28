@@ -35,7 +35,7 @@ public class TextoListAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return this.list.get(position).getId();
+        return this.list.get(position).getIdLocal();
     }
 
     @Override

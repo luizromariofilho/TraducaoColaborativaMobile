@@ -55,6 +55,9 @@ public class ListagemActivity extends Activity {
         }else if(requestCode == REQUEST_ADICIONAR_CODE){
             list = FachadaBD.getInstancia().getAll();
             listView.setAdapter(new TextoListAdapter(list, this));
+        }else if(requestCode == REQUEST_CONFIGURACOES_CODE){
+            list = FachadaBD.getInstancia().getAll();
+            listView.setAdapter(new TextoListAdapter(list, this));
         }
     }
 
