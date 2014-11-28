@@ -3,7 +3,6 @@ package br.com.luizromariofilho.TraducaoColaborativaMobile;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import br.com.luizromariofilho.TraducaoColaborativaMobile.entities.Texto;
 
@@ -25,7 +24,7 @@ public class FormActivity extends Activity {
 
     public void btnSalvarOnClick(View view){
         texto.setTextoOriginal(txtTextoOriginal.getText().toString());
-        texto.setEmailAutor(Sessao.email);
+        texto.setEmailAutor(Util.email);
         texto.setTraduzido(false);
 
         FachadaBD.getInstancia().salvar(texto);

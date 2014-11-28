@@ -1,10 +1,8 @@
 package br.com.luizromariofilho.TraducaoColaborativaMobile.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 
-/**
- * Created by Luiz Romario Filho on 11/22/2014.
- */
 public class Texto implements Serializable {
     private Integer id;
     private Integer idLocal;
@@ -13,7 +11,7 @@ public class Texto implements Serializable {
     private String textoTraduzido;
     private String emailAutor;
     private String emailTradutor;
-    private Date ultimaModificacao;
+    private Date ultimaSincronizacao;
 
     public Texto() {
     }
@@ -73,5 +71,21 @@ public class Texto implements Serializable {
 
     public void setEmailTradutor(String emailTradutor) {
         this.emailTradutor = emailTradutor;
+    }
+
+    public Integer getIdLocal() {
+        return idLocal;
+    }
+
+    public void setIdLocal(Integer idLocal) {
+        this.idLocal = idLocal;
+    }
+
+    public Date getUltimaSincronizacao() {
+        return ultimaSincronizacao;
+    }
+
+    public void setUltimaSincronizacao(Date ultimaSincronizacao) {
+        this.ultimaSincronizacao = ultimaSincronizacao;
     }
 }

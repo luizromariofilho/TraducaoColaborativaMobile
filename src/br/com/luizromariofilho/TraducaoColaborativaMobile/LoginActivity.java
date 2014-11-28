@@ -23,7 +23,6 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-
         this.txtEmail = (EditText) findViewById(R.id.txtEmail);
         this.txtError = (TextView) findViewById(R.id.txtError);
         txtError.setVisibility(View.GONE);
@@ -31,7 +30,7 @@ public class LoginActivity extends Activity {
 
     public void btnEntrarOnClick(View view){
         String email = txtEmail.getText().toString();
-        Sessao.email = email;
+        Util.email = email;
         if(emailValido(email)){
             Intent intent = new Intent(LoginActivity.this, ListagemActivity.class);
             startActivity(intent);

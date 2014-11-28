@@ -35,7 +35,7 @@ public class DetalhesActivity extends Activity {
 
     public void btnTraduzirOnClick(View view){
         texto.setTextoTraduzido(this.txtTraducao.getText().toString());
-        texto.setEmailTradutor(Sessao.email);
+        texto.setEmailTradutor(Util.email);
         texto.setTraduzido(true);
         FachadaBD.getInstancia().salvar(texto);
         this.finish();
