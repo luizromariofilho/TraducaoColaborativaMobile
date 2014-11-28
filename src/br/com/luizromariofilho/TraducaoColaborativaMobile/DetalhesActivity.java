@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import br.com.luizromariofilho.TraducaoColaborativaMobile.entities.Texto;
 
+import java.util.Date;
+
 /**
  * Created by Luiz Romario Filho on 11/22/2014.
  */
@@ -37,6 +39,8 @@ public class DetalhesActivity extends Activity {
         texto.setTextoTraduzido(this.txtTraducao.getText().toString());
         texto.setEmailTradutor(Util.email);
         texto.setTraduzido(true);
+        texto.setUltimaAlteracao(new Date());
+
         FachadaBD.getInstancia().salvar(texto);
         this.finish();
     }
@@ -45,6 +49,8 @@ public class DetalhesActivity extends Activity {
         texto.setTextoTraduzido("");
         texto.setEmailTradutor("");
         texto.setTraduzido(false);
+        texto.setUltimaAlteracao(new Date());
+
         FachadaBD.getInstancia().salvar(texto);
         this.finish();
     }

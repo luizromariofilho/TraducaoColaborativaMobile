@@ -11,7 +11,7 @@ public class Texto implements Serializable {
     private String textoTraduzido;
     private String emailAutor;
     private String emailTradutor;
-    private Date ultimaSincronizacao;
+    private Date ultimaAlteracao;
 
     public Texto() {
     }
@@ -81,11 +81,11 @@ public class Texto implements Serializable {
         this.idLocal = idLocal;
     }
 
-    public Date getUltimaSincronizacao() {
-        return ultimaSincronizacao;
+    public Date getUltimaAlteracao() {
+        return ultimaAlteracao;
     }
 
-    public void setUltimaSincronizacao(Date ultimaSincronizacao) {
-        this.ultimaSincronizacao = ultimaSincronizacao;
+    public void setUltimaAlteracao(Date ultimaAlteracao) {
+        this.ultimaAlteracao = ultimaAlteracao;
     }
 }

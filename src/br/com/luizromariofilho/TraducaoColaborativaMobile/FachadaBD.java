@@ -28,12 +28,12 @@ public class FachadaBD extends SQLiteOpenHelper {
     private static final String KEY_TEXTO_TRADUZIDO = "textoTraduzido";
     private static final String KEY_EMAIL_AUTOR = "emailAutor";
     private static final String KEY_EMAIL_TRADUTOR = "emailTradutor";
-    private static final String KEY_DATA_SINCRONIZACAO = "ultimaSincronizacao";
+    private static final String KEY_DATA_ALTERACAO = "ultimaAlteracao";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     // comandos para o banco de dados
     private static final String CRIAR_TABELA_TEXTO = "CREATE TABLE " + NOME_TABELA + " (" + KEY_ID_LOCAL + " INTEGER PRIMARY KEY, " + KEY_ID + " INTEGER,"+ KEY_TEXTO_ORIGINAL + " TEXT, " + KEY_TRADUZIDO + " INT, "
-                                                     + KEY_TEXTO_TRADUZIDO + " TEXT, " + KEY_EMAIL_AUTOR + " TEXT, " + KEY_EMAIL_TRADUTOR + " TEXT, " + KEY_DATA_SINCRONIZACAO +" DATETIME)";
+                                                     + KEY_TEXTO_TRADUZIDO + " TEXT, " + KEY_EMAIL_AUTOR + " TEXT, " + KEY_EMAIL_TRADUTOR + " TEXT, " + KEY_DATA_ALTERACAO +" DATETIME)";
 
     // criar instancia unica
     private static FachadaBD instancia = null;
@@ -69,6 +69,9 @@ public class FachadaBD extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues campos = new ContentValues();
+
+        campos.put(KEY_DATA_ALTERACAO, simpleDateFormat.format(new Date()));
+
         if(texto.getIdLocal() != null){
             campos.put(KEY_EMAIL_AUTOR, texto.getEmailAutor());
             campos.put(KEY_EMAIL_TRADUTOR, texto.getEmailTradutor());
@@ -76,10 +79,7 @@ public class FachadaBD extends SQLiteOpenHelper {
             campos.put(KEY_TEXTO_ORIGINAL, texto.getTextoOriginal());
             campos.put(KEY_TEXTO_TRADUZIDO, texto.getTextoTraduzido());
             campos.put(KEY_TRADUZIDO, texto.getTraduzido() ? 1 : 0);
-            Date ultimaSincronizacao = texto.getUltimaSincronizacao();
-            if(ultimaSincronizacao != null) {
-                campos.put(KEY_DATA_SINCRONIZACAO, simpleDateFormat.format(ultimaSincronizacao));
-            }
+
             return db.update(NOME_TABELA,campos, KEY_ID_LOCAL + " = " + texto.getIdLocal(),null);
         } else {
             campos.put(KEY_EMAIL_AUTOR, texto.getEmailAutor());
@@ -90,16 +90,13 @@ public class FachadaBD extends SQLiteOpenHelper {
             campos.put(KEY_TEXTO_ORIGINAL, texto.getTextoOriginal());
             campos.put(KEY_TEXTO_TRADUZIDO, texto.getTextoTraduzido());
             campos.put(KEY_TRADUZIDO, texto.getTraduzido() ? 1 : 0);
-            Date ultimaSincronizacao = texto.getUltimaSincronizacao();
-            if(ultimaSincronizacao != null) {
-                campos.put(KEY_DATA_SINCRONIZACAO, simpleDateFormat.format(ultimaSincronizacao));
-            }
+
             return db.insert(NOME_TABELA, null, campos);
         }
     }
 
     private Integer getMaxId(SQLiteDatabase db) {
-        Cursor c = db.rawQuery("SELECT MAX("+ KEY_ID_LOCAL+") AS ID FROM " + NOME_TABELA, null);
+        Cursor c = db.rawQuery("SELECT MAX(" + KEY_ID_LOCAL + ") AS ID FROM " + NOME_TABELA, null);
         Integer id = 0;
         if (c != null) {
             boolean continuar = c.moveToFirst();
@@ -116,6 +113,21 @@ public class FachadaBD extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor c = db.rawQuery("SELECT * FROM " + NOME_TABELA + " WHERE " + KEY_ID_LOCAL + " = " + id, null);
+        if (c != null) {
+            boolean continuar = c.moveToFirst();
+            while (continuar) {
+                texto = populateTexto(c);
+                continuar = c.moveToNext();
+            }
+        }
+        return texto;
+    }
+
+    public Texto getByIdRemoto(long id){
+        Texto texto = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor c = db.rawQuery("SELECT * FROM " + NOME_TABELA + " WHERE " + KEY_ID + " = " + id, null);
         if (c != null) {
             boolean continuar = c.moveToFirst();
             while (continuar) {
@@ -151,11 +163,11 @@ public class FachadaBD extends SQLiteOpenHelper {
         texto.setEmailAutor(cursor.getString(cursor.getColumnIndex(KEY_EMAIL_AUTOR)));
         texto.setEmailTradutor(cursor.getString(cursor.getColumnIndex(KEY_EMAIL_TRADUTOR)));
         texto.setTraduzido(cursor.getInt(cursor.getColumnIndex(KEY_TRADUZIDO)) == 1);
-        String ultimaSincronizacao = null;
-        ultimaSincronizacao = cursor.getString(cursor.getColumnIndex(KEY_DATA_SINCRONIZACAO));
-        if(ultimaSincronizacao != null){
+        String dataAlteracao = null;
+        dataAlteracao = cursor.getString(cursor.getColumnIndex(KEY_DATA_ALTERACAO));
+        if(dataAlteracao != null){
             try {
-                texto.setUltimaSincronizacao(simpleDateFormat.parse(ultimaSincronizacao));
+                texto.setUltimaAlteracao(simpleDateFormat.parse(dataAlteracao));
             } catch (ParseException e) {
                 e.printStackTrace();
             }

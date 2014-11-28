@@ -21,6 +21,6 @@ public class ConfiguracoesActivity extends Activity {
 
     public void btnSincronizarOnClick(View view){
         sincronizador.executar();
-        this.finish();
+
     }
 }

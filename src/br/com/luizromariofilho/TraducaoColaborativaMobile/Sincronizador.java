@@ -1,34 +1,33 @@
 package br.com.luizromariofilho.TraducaoColaborativaMobile;
 
-import android.content.Intent;
 import br.com.luizromariofilho.TraducaoColaborativaMobile.entities.Texto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Luiz Romario Filho on 11/27/2014.
  */
 public class Sincronizador {
+    private final Gson gson;
+    public Sincronizador() {
+        gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+    }
+
 
     public void executar(){
         pullServer();
-        //if(Sessao.isEmptyBd){
-        //    pullServer();
-        //}else{
-            //pushServer();
-        //    pullServer();
-        //}
     }
 
     private void pullServer() {
         Tarefa tarefa;
         String ultimaSincronizacao;
-        if(Util.sincronizacao != null){
-            ultimaSincronizacao = new SimpleDateFormat("dd-MM-yyyyHH:mm").format(Util.sincronizacao);
+        if(Util.ultimaSincronizacao != null){
+            ultimaSincronizacao = new SimpleDateFormat("dd-MM-yyyyHH:mm:ss").format(Util.ultimaSincronizacao);
             tarefa = new Tarefa(Util.URL_WEBSERVICE + "/texto?ultimaSincronizacao="+ ultimaSincronizacao);
         }else{
             tarefa = new Tarefa(Util.URL_WEBSERVICE + "/texto");
@@ -37,21 +36,17 @@ public class Sincronizador {
         tarefa.setEventListen(new TarefaEvents() {
             @Override
             public void onCompleta(String retorno) {
-                Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                 TypeToken<List<Texto>> token = new TypeToken<List<Texto>>() {
                 };
                 List<Texto> textos= gson.fromJson(retorno, token.getType());
-
-                //...procurar pelo id do elemento de retorno no banco de dados local
-                //se exisitir atualzar(tomar cuidado para manter o idlocal)
-                //se não insere
-
-                if(Util.sincronizacao == null){
-                    for (Texto texto : textos) {
-                        FachadaBD.getInstancia().salvar(texto);
+                for (Texto texto : textos) {
+                    Texto textoLocal = FachadaBD.getInstancia().getByIdRemoto(texto.getId());
+                    if(textoLocal!=null){
+                        texto.setIdLocal(textoLocal.getIdLocal());
                     }
+                    FachadaBD.getInstancia().salvar(texto);
+                    Util.bancoSincronizado();
                 }
-                Util.bancoSincronizado();
             }
 
             @Override
@@ -65,31 +60,44 @@ public class Sincronizador {
             }
         });
         tarefa.executar(true);
+
     }
 
     private void pushServer() {
-        //Localizar elementos novs (com id=null)
-        //Elementos com ultma atualizacao depois da data definda na sessao
+        Tarefa tarefaPost;
+        List<Texto> textos = FachadaBD.getInstancia().getAll();
+        List<Texto> modificados = new ArrayList<Texto>();
 
-        Tarefa tarefaPost = new Tarefa(Util.URL_WEBSERVICE + "/texto","JSON OBJECT");
-        tarefaPost.setEventListen(new TarefaEvents() {
-            @Override
-            public void onCompleta(String retorno) {
-                //Ao terminar de enviar
-                //definir id de retorno para o campo id do objeo texto
+        for (Texto texto : textos) {
+            if(Util.ultimaSincronizacao==null || (texto.getUltimaAlteracao() != null && texto.getUltimaAlteracao().after(Util.ultimaSincronizacao))){
+                modificados.add(texto);
             }
+        }
 
-            @Override
-            public void onFalha(String retorno) {
+        modificados = textos;
 
-            }
+        for (final Texto texto : modificados) {
+            String json = gson.toJson(texto);
+            tarefaPost = new Tarefa(Util.URL_WEBSERVICE + "/texto",json);
+            tarefaPost.setEventListen(new TarefaEvents() {
+                @Override
+                public void onCompleta(String retorno) {
+                    texto.setId(Integer.parseInt(retorno));
+                    FachadaBD.getInstancia().salvar(texto);
+                }
 
-            @Override
-            public void onIniciada() {
+                @Override
+                public void onFalha(String retorno) {
+                    System.out.println("Falha ao sincronizar.");
+                }
 
-            }
-        });
+                @Override
+                public void onIniciada() {
+                    System.out.println("Iniciando sincronização.");
+                }
+            });
+            tarefaPost.executar(true);
+        }
 
-        tarefaPost.executar(true);
     }
 }
